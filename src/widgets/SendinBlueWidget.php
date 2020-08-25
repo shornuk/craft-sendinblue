@@ -49,7 +49,7 @@ class SendinBlueWidget extends Widget
      */
     public static function displayName(): string
     {
-        return Craft::t('sendin-blue', 'SendinBlueWidget');
+        return Craft::t('sendinblue', 'SendinBlueWidget');
     }
 
     /**

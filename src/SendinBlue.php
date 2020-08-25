@@ -104,7 +104,7 @@ class SendinBlue extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'sendin-blue/default';
+                $event->rules['siteActionTrigger1'] = 'sendinblue/default';
             }
         );
 
@@ -113,7 +113,7 @@ class SendinBlue extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['cpActionTrigger1'] = 'sendin-blue/default/do-something';
+                $event->rules['cpActionTrigger1'] = 'sendinblue/default/do-something';
             }
         );
 
@@ -157,7 +157,7 @@ class SendinBlue extends Plugin
  */
         Craft::info(
             Craft::t(
-                'sendin-blue',
+                'sendinblue',
                 '{name} plugin loaded',
                 ['name' => $this->name]
             ),
@@ -187,7 +187,7 @@ class SendinBlue extends Plugin
     protected function settingsHtml(): string
     {
         return Craft::$app->view->renderTemplate(
-            'sendin-blue/settings',
+            'sendinblue/settings',
             [
                 'settings' => $this->getSettings()
             ]

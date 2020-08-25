@@ -2,7 +2,7 @@
     "name": "shornuk/craft-sendinblue",
     "description": "Integration with SendinBlue API. Create, update and delete sendinblue Contacts from with Craft",
     "type": "craft-plugin",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "keywords": [
         "craft",
         "cms",
@@ -11,8 +11,8 @@
         "sendinblue"
     ],
     "support": {
-        "docs": "https://github.com/shornuk/sendin-blue/blob/master/README.md",
-        "issues": "https://github.com/shornuk/sendin-blue/issues"
+        "docs": "https://github.com/shornuk/craft-sendinblue/blob/master/README.md",
+        "issues": "https://github.com/shornuk/craft-sendinblue/issues"
     },
     "license": "MIT",
     "authors": [
@@ -36,11 +36,11 @@
     },
     "extra": {
         "name": "SendinBlue",
-        "handle": "sendin-blue",
+        "handle": "sendinblue",
         "developer": "Sean Hill",
         "developerUrl": "shorn.co.uk",
-        "documentationUrl": "https://github.com/shornuk/sendin-blue/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/shornuk/sendin-blue/master/CHANGELOG.md",
+        "documentationUrl": "https://github.com/shornuk/craft-sendinblue/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/shornuk/craft-sendinblue/master/CHANGELOG.md",
         "components": {
             "sendinBlueService": "shornuk\\sendinblue\\services\\SendinBlueService"
         },
