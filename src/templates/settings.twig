@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * SendinBlue plugin for Craft CMS 3.x
+ *
+ * SendinBlue Settings.twig
+ *
+ * @author    Sean Hill
+ * @copyright Copyright (c) 2020 Sean Hill
+ * @link      shorn.co.uk
+ * @package   SendinBlue
+ * @since     0.0.1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("shornuk\\sendinblue\\assetbundles\\sendinblue\\SendinBlueAsset") %}
+
+{{ forms.textField({
+    label: 'Some Field',
+    instructions: 'Enter some setting here.',
+    id: 'someAttribute',
+    name: 'someAttribute',
+    value: settings['someAttribute']})
+}}

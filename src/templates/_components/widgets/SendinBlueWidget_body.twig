@@ -1,0 +1,20 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * SendinBlue plugin for Craft CMS
+ *
+ * SendinBlueWidget Widget Body
+ *
+ * @author    Sean Hill
+ * @copyright Copyright (c) 2020 Sean Hill
+ * @link      shorn.co.uk
+ * @package   SendinBlue
+ * @since     0.0.1
+ */
+#}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@shornuk/sendinblue/assetbundles/sendinbluewidgetwidget/dist', true) ~ '/img/SendinBlueWidget-icon.svg' %}
+
+<img src="{{ iconUrl }}" height="64" width="64" />
+
+<p>{{ message }}</p>
