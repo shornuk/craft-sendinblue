@@ -14,6 +14,7 @@ use shornuk\sendinblue\SendinBlue;
 
 use Craft;
 use craft\base\Model;
+use craft\behaviors\EnvAttributeParserBehavior;
 
 /**
  * SendinBlue Settings Model
@@ -34,15 +35,23 @@ class Settings extends Model
     // Public Properties
     // =========================================================================
 
-    /**
-     * Some field model attribute
-     *
-     * @var string
+     /**
+     * @var string An API key to used for accessing the Send in Blue API
      */
-    public $someAttribute = 'Some Default';
+    public $apiKey;
 
     // Public Methods
     // =========================================================================
+
+    public function behaviors(): array
+    {
+        return [
+            'parser' => [
+                'class' => EnvAttributeParserBehavior::class,
+                'attributes' => ['apiKey'],
+            ],
+        ];
+    }
 
     /**
      * Returns the validation rules for attributes.
@@ -57,8 +66,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['apiKey', 'required']
         ];
     }
 }

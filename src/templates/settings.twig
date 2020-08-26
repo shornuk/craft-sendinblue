@@ -13,14 +13,28 @@
  */
 #}
 
+
+{% set apiKey = settings.apiKey|replace('$', '') %}
+
 {% import "_includes/forms" as forms %}
 
 {% do view.registerAssetBundle("shornuk\\sendinblue\\assetbundles\\sendinblue\\SendinBlueAsset") %}
 
-{{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
-}}
+{% set instructions %}
+
+{% endset %}
+
+{{ forms.autosuggestField({
+    label: "API Key"|t('sendinblue'),
+    instructions: 'Enter your Sendinblue account API Key <a href="https://help.sendinblue.com/hc/en-us/articles/209467485-What-s-an-API-key-and-how-can-I-get-mine-" class="go" rel="noopener" target="_blank">Learn more</a>',
+    warning: (config.apiKey is defined ? macros.configWarning('apiKey')),
+    id: 'apiKey',
+    name: 'apiKey',
+    suggestEnvVars: true,
+    suggestions: craft.cp.getEnvSuggestions(),
+    value: settings.apiKey,
+    errors: settings.getErrors('apiKey'),
+    required: true,
+}) }}
+
+

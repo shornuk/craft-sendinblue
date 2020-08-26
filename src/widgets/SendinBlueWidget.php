@@ -11,16 +11,12 @@
 namespace shornuk\sendinblue\widgets;
 
 use shornuk\sendinblue\SendinBlue;
-use shornuk\sendinblue\assetbundles\sendinbluewidgetwidget\SendinBlueWidgetWidgetAsset;
+use shornuk\sendinblue\assetbundles\sendinblue\SendinBlueAsset;
 
 use Craft;
 use craft\base\Widget;
 
 /**
- * SendinBlue Widget
- *
- * Dashboard widgets allow you to display information in the Admin CP Dashboard.
- * Adding new types of widgets to the dashboard couldn’t be easier in Craft
  *
  * https://craftcms.com/docs/plugins/widgets
  *
@@ -49,7 +45,7 @@ class SendinBlueWidget extends Widget
      */
     public static function displayName(): string
     {
-        return Craft::t('sendinblue', 'SendinBlueWidget');
+        return Craft::t('sendinblue', 'Send in Blue');
     }
 
     /**
@@ -57,9 +53,9 @@ class SendinBlueWidget extends Widget
      *
      * @return string|null The path to the widget’s SVG icon
      */
-    public static function iconPath()
+    public static function icon()
     {
-        return Craft::getAlias("@shornuk/sendinblue/assetbundles/sendinbluewidgetwidget/dist/img/SendinBlueWidget-icon.svg");
+        return Craft::getAlias("@shornuk/sendinblue/icon-mask.svg");
     }
 
     /**
@@ -193,7 +189,7 @@ class SendinBlueWidget extends Widget
     public function getSettingsHtml()
     {
         return Craft::$app->getView()->renderTemplate(
-            'sendin-blue/_components/widgets/SendinBlueWidget_settings',
+            'sendinblue/_components/widgets/SendinBlue_settings',
             [
                 'widget' => $this
             ]
@@ -209,10 +205,10 @@ class SendinBlueWidget extends Widget
      */
     public function getBodyHtml()
     {
-        Craft::$app->getView()->registerAssetBundle(SendinBlueWidgetWidgetAsset::class);
+        Craft::$app->getView()->registerAssetBundle(SendinBlueAsset::class);
 
         return Craft::$app->getView()->renderTemplate(
-            'sendin-blue/_components/widgets/SendinBlueWidget_body',
+            'sendinblue/_components/widgets/SendinBlue_body',
             [
                 'message' => $this->message
             ]

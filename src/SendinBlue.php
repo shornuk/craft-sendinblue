@@ -10,15 +10,17 @@
 
 namespace shornuk\sendinblue;
 
-use shornuk\sendinblue\services\SendinBlueService as SendinBlueServiceService;
+use shornuk\sendinblue\services\SendinBlueService;
+use shornuk\sendinblue\variables\SendinBlueVariable;
 use shornuk\sendinblue\models\Settings;
-use shornuk\sendinblue\widgets\SendinBlueWidget as SendinBlueWidgetWidget;
+use shornuk\sendinblue\widgets\SendinBlueWidget;
 
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
+use craft\web\twig\variables\CraftVariable;
 use craft\services\Dashboard;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
@@ -99,6 +101,19 @@ class SendinBlue extends Plugin
         parent::init();
         self::$plugin = $this;
 
+        $this->setComponents([
+            'api' => SendinBlueService::class,
+        ]);
+
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                $variable = $event->sender;
+                $variable->set('sendinblue', SendinBlueVariable::class);
+            }
+        );
+
         // Register our site routes
         Event::on(
             UrlManager::class,
@@ -122,7 +137,7 @@ class SendinBlue extends Plugin
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = SendinBlueWidgetWidget::class;
+                $event->types[] = SendinBlueWidget::class;
             }
         );
 

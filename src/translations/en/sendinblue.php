@@ -22,4 +22,5 @@
  */
 return [
     'SendinBlue plugin loaded' => 'SendinBlue plugin loaded',
+    'API Key' => '',
 ];
