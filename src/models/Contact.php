@@ -1,7 +1,6 @@
 <?php
 /**
  * SendinBlue plugin for Craft CMS 3.x
- *
  * Integration with SendinBlue API. Create, update and delete sendinblue Contacts from with Craft
  *
  * @link      shorn.co.uk
@@ -16,13 +15,6 @@ use Craft;
 use craft\base\Model;
 
 /**
- * Contact Model
- *
- * Models are containers for data. Just about every time information is passed
- * between services, controllers, and templates in Craft, it’s passed via a model.
- *
- * https://craftcms.com/docs/plugins/models
- *
  * @author    Sean Hill
  * @package   SendinBlue
  * @since     0.0.1
@@ -33,11 +25,9 @@ class Contact extends Model
     // =========================================================================
 
     /**
-     * Some model attribute
-     *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $email;
 
     // Public Methods
     // =========================================================================
@@ -55,8 +45,8 @@ class Contact extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['email', 'email'],
+            ['email', 'required']
         ];
     }
 }

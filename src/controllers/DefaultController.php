@@ -46,7 +46,7 @@ class DefaultController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index', 'do-something'];
+    protected $allowAnonymous = ['index'];
 
     // Public Methods
     // =========================================================================
@@ -58,22 +58,27 @@ class DefaultController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
-        $result = 'Welcome to the DefaultController actionIndex() method';
+        {
+            // Get the request
+            // $this->requirePostRequest();
+            // $request  = Craft::$app->getRequest();
+            // $plugin   = Plugin::getInstance();
 
-        return $result;
-    }
+            // $response = [];
+            // $response['success'] = true;
+            // // Create a new signup
+            // $contact = new Contact();
+            // $contact->email = $request->getBodyParam('email');
 
-    /**
-     * Handle a request going to our plugin's actionDoSomething URL,
-     * e.g.: actions/sendin-blue/default/do-something
-     *
-     * @return mixed
-     */
-    public function actionDoSomething()
-    {
-        $result = 'Welcome to the DefaultController actionDoSomething() method';
+            // if(!$contact->validate()){
+            //     $response['success'] = false;
+            //     $response['errors']  = $contact->getErrors();
+            //     return $this->asJson($response);
+            // }
 
-        return $result;
-    }
+            // $response = Sendinblue::$plugin->api->createContact($signup);
+
+            // return $this->asJson($response);
+        }
+
 }

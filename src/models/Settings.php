@@ -53,6 +53,13 @@ class Settings extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'apiKey' => Craft::t('sendinblue', 'API Key'),
+        ];
+    }
+
     /**
      * Returns the validation rules for attributes.
      *
