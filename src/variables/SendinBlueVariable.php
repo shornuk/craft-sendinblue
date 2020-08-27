@@ -29,6 +29,11 @@ class SendinblueVariable
         return Sendinblue::$plugin->api->createContact($email);
     }
 
+    public function getContactInfo(String $email)
+    {
+        return Sendinblue::$plugin->api->getContactInfo($email);
+    }
+
     public function subscribeToList(String $email, Int $id)
     {
         return Sendinblue::$plugin->api->subscribeToList($email, $id);

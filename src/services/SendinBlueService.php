@@ -128,7 +128,29 @@ class SendinBlueService extends Component
                 return false;
             }
         }
-        return $contact;
+        return true;
+    }
+
+    public function getContactInfo(String $email)
+    {
+        if (!$this->contactExists($email))
+        {
+            $this->createContact($email);
+        }
+        try
+        {
+            $response = $this->getApiInstance()->getContactInfo($email);
+        }
+        catch (ApiException $e)
+        {
+            // 'duplicate_parameter' means contact already exists, return.
+            $response = json_decode($e->getResponseBody(), true);
+            if ($response['code'] === 'duplicate_parameter')
+            {
+                return false;
+            }
+        }
+        return $response;
     }
 
     public function addContactToList(String $email, Int $list)
