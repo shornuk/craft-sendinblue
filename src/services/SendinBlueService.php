@@ -19,11 +19,14 @@ use craft\elements\User;
 use GuzzleHttp\Client;
 use yii\base\Exception;
 
+use SendinBlue\Client\ApiException;
 use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Api\ListsApi;
 use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Model\GetExtendedList;
-use SendinBlue\Client\ApiException;
 use SendinBlue\Client\Model\CreateContact;
+use SendinBlue\Client\Model\AddContactToList;
+use SendinBlue\Client\Model\RemoveContactFromList;
 
 /**
  * @author    Sean Hill
@@ -82,7 +85,7 @@ class SendinBlueService extends Component
     * @return Client
     * @throws \Exception if our API key is missing.
     */
-    public function getApiInstance()
+    public function getApiInstance($api = 'contacts')
     {
         // Check the API key is set
         $this->isConfigured = !empty($this->settings->apiKey);
@@ -91,7 +94,17 @@ class SendinBlueService extends Component
         {
             throw new Exception('API Key is required.');
         }
-        return new ContactsApi($this->getClient(), Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->settings->apiKey));
+        switch ($api)
+        {
+            case 'lists':
+                return new ListsApi($this->getClient(), Configuration::getDefaultConfiguration()->setApiKey('api-key', Craft::parseEnv($this->settings->apiKey)));
+                break;
+
+            case 'contacts':
+                return new ContactsApi($this->getClient(), Configuration::getDefaultConfiguration()->setApiKey('api-key', Craft::parseEnv($this->settings->apiKey)));
+                break;
+        }
+
     }
 
     /**
@@ -101,12 +114,29 @@ class SendinBlueService extends Component
     */
     public function createContact(String $email)
     {
-        $contact = new Contact;
-        $contact->email = $email;
         try
         {
             // Check if the user exists, if so return true
-            $response = $this->getApiInstance()->createContact(new CreateContact(['email' => $contact->email]));
+            $response = $this->getApiInstance()->createContact(new CreateContact(['email' => $email]));
+        }
+        catch (ApiException $e)
+        {
+            // 'duplicate_parameter' means contact already exists, return.
+            $response = json_decode($e->getResponseBody(), true);
+            if ($response['code'] === 'duplicate_parameter')
+            {
+                return false;
+            }
+        }
+        return $contact;
+    }
+
+    public function addContactToList(String $email, Int $list)
+    {
+        try
+        {
+            // Check if the user exists, if so return true
+            $response = $this->getApiInstance('lists')->addContactToList($list, new AddContactToList(['emails'=>[ $email ]]));
         }
         catch (ApiException $e)
         {
@@ -120,6 +150,45 @@ class SendinBlueService extends Component
         return true;
     }
 
+    public function removeContactFromList(String $email, Int $list)
+    {
+        try
+        {
+            // Check if the user exists, if so return true
+            $response = $this->getApiInstance('lists')->removeContactFromList($list, new RemoveContactFromList(['emails'=>[ $email ]]));
+        }
+        catch (ApiException $e)
+        {
+            // 'duplicate_parameter' means contact already exists, return.
+            $response = json_decode($e->getResponseBody(), true);
+            if ($response['code'] === 'duplicate_parameter')
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function subscribeToList($email, Int $list)
+    {
+        if (!$this->contactExists($email))
+        {
+            $this->createContact($email);
+        }
+        return $this->addContactToList($email, $list);
+    }
+
+    public function unsubscribeFromList($email, Int $list)
+    {
+        if (!$this->contactExists($email))
+        {
+            $this->createContact($email);
+        }
+        return $this->removeContactFromList($email, $list);
+    }
+
+
+
 
     /**
     * Check a user exists.
@@ -128,12 +197,10 @@ class SendinBlueService extends Component
     */
     public function contactExists(String $email): bool
     {
-        $contact = new Contact;
-        $contact->email = $email;
         try
         {
             // Check if the user exists, if so return true
-            $response = $this->getApiInstance()->getContactInfo($contact->email);
+            $response = $this->getApiInstance()->getContactInfo($email);
             if ($response->getEmail())
             {
                 return true;

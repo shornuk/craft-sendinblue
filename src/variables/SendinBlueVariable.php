@@ -29,4 +29,14 @@ class SendinblueVariable
         return Sendinblue::$plugin->api->createContact($email);
     }
 
+    public function subscribeToList(String $email, Int $id)
+    {
+        return Sendinblue::$plugin->api->subscribeToList($email, $id);
+    }
+
+    public function unsubscribeFromList(String $email, Int $id)
+    {
+        return Sendinblue::$plugin->api->unsubscribeFromList($email, $id);
+    }
+
 }
